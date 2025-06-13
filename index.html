@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEON NEXUS | Premium Futuristic Experience</title>
+    <style>
+        :root {
+            --neon-pink: #ff00ff;
+            --neon-blue: #00f0ff;
+            --neon-purple: #9d00ff;
+            --dark-space: #0a0a20;
+            --void-black: #000010;
+        }
+
+        @font-face {
+            font-family: 'Quantum';
+            src: url('https://fonts.cdnfonts.com/css/quantum');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--void-black);
+            color: white;
+            font-family: 'Quantum', sans-serif;
+            overflow-x: hidden;
+            perspective: 1000px;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="30" viewBox="0 0 24 30"><circle cx="12" cy="12" r="8" fill="none" stroke="%2300f0ff" stroke-width="2"/><circle cx="12" cy="12" r="3" fill="%23ff00ff"/></svg>'), auto;
+        }
+
+        #gateway {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: radial-gradient(circle at center, var(--neon-blue) 0%, transparent 70%);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 1000;
+            mix-blend-mode: screen;
+            animation: pulse 8s infinite alternate;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.2); opacity: 0.3; }
+            100% { transform: scale(1); opacity: 0.1; }
+        }
+
+        #biometric-scanner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, var(--neon-pink), transparent);
+            box-shadow: 0 0 15px var(--neon-pink);
+            z-index: 9999;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% { bottom: 0; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { bottom: 100%; opacity: 0; }
+        }
+
+        .neon-text {
+            text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 30px var(--neon-purple);
+            animation: neon-flicker 3s infinite alternate;
+        }
+
+        @keyframes neon-flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 30px var(--neon-purple);
+            }
+            20%, 24%, 55% {
+                text-shadow: none;
+            }
+        }
+
+        #main-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #cyber-lock {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 300px;
+            height: 300px;
+            border: 3px solid var(--neon-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px var(--neon-blue);
+            opacity: 0.7;
+            z-index: -1;
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .hologram {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(10, 10, 32, 0.5);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            transform-style: preserve-3d;
+            transform: rotateX(5deg);
+        }
+
+        .hologram::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-pink), var(--neon-blue), var(--neon-purple), var(--neon-pink));
+            background-size: 400%;
+            z-index: -1;
+            border-radius: 12px;
+            opacity: 0;
+            transition: 0.5s;
+            animation: animate 8s linear infinite;
+        }
+
+        @keyframes animate {
+            0% { background-position: 0 0; }
+            50% { background-position: 300% 0; }
+            100% { background-position: 0 0; }
+        }
+
+        .hologram:hover::before {
+            opacity: 1;
+        }
+
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        #voice-command {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(0, 240, 255, 0.2);
+            border: 2px solid var(--neon-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+
+        #voice-command:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--neon-blue);
+        }
+
+        #voice-command::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid var(--neon-blue);
+            animation: pulse-ring 2s infinite;
+            opacity: 0;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.7; }
+            70%, 100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        #access-denied {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            flex-direction: column;
+        }
+
+        #crypto-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .crypto-key {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid var(--neon-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.5rem;
+            border-radius: 5px;
+        }
+
+        .crypto-key:hover {
+            background: rgba(0, 240, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.4);
+        }
+
+        #time-distortion {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, transparent 20%, var(--void-black) 70%);
+            pointer-events: none;
+            z-index: 9997;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        #hidden-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 2s;
+        }
+
+        .glitch-img {
+            position: relative;
+            width: 100%;
+            height: auto;
+            margin: 1rem 0;
+        }
+
+        .glitch-img::before, .glitch-img::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+        }
+
+        .glitch-img::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff00ff;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch-img::after {
+            left: -2px;
+            text-shadow: -2px 0 #00f0ff;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% { clip: rect(31px, 9999px, 94px, 0); }
+            10% { clip: rect(112px, 9999px, 76px, 0); }
+            20% { clip: rect(85px, 9999px, 77px, 0); }
+            30% { clip: rect(27px, 9999px, 97px, 0); }
+            40% { clip: rect(64px, 9999px, 98px, 0); }
+            50% { clip: rect(61px, 9999px, 85px, 0); }
+            60% { clip: rect(99px, 9999px, 114px, 0); }
+            70% { clip: rect(34px, 9999px, 115px, 0); }
+            80% { clip: rect(98px, 9999px, 129px, 0); }
+            90% { clip: rect(43px, 9999px, 96px, 0); }
+            100% { clip: rect(82px, 9999px, 64px, 0); }
+        }
+
+        @keyframes glitch-anim2 {
+            0% { clip: rect(65px, 9999px, 119px, 0); }
+            10% { clip: rect(25px, 9999px, 145px, 0); }
+            20% { clip: rect(129px, 9999px, 102px, 0); }
+            30% { clip: rect(79px, 9999px, 136px, 0); }
+            40% { clip: rect(128px, 9999px, 123px, 0); }
+            50% { clip: rect(30px, 9999px, 145px, 0); }
+            60% { clip: rect(68px, 9999px, 108px, 0); }
+            70% { clip: rect(50px, 9999px, 147px, 0); }
+            80% { clip: rect(78px, 9999px, 103px, 0); }
+            90% { clip: rect(35px, 9999px, 115px, 0); }
+            100% { clip: rect(67px, 9999px, 136px, 0); }
+        }
+
+        #quantum-tunnel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(from 90deg at 50% 50%, #9d00ff, #00f0ff, #ff00ff, #9d00ff);
+            z-index: 9996;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1s;
+            mix-blend-mode: screen;
+        }
+
+        #payment-gateway {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 500px;
+            padding: 2rem;
+            background: rgba(10, 10, 32, 0.9);
+            border: 1px solid var(--neon-pink);
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.5);
+            border-radius: 10px;
+            z-index: 9999;
+            display: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .crypto-option {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            margin: 1rem 0;
+            background: rgba(0, 240, 255, 0.1);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .crypto-option:hover {
+            background: rgba(0, 240, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 240, 255, 0.4);
+        }
+
+        #countdown {
+            font-size: 5rem;
+            margin: 2rem 0;
+            text-align: center;
+            color: var(--neon-pink);
+            text-shadow: 0 0 20px var(--neon-pink);
+        }
+
+        #dna-strand {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        #eye-scanner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 3px solid var(--neon-blue);
+            box-shadow: 0 0 50px var(--neon-blue), inset 0 0 50px var(--neon-blue);
+            display: none;
+            z-index: 9998;
+            animation: scan-pulse 2s infinite alternate;
+        }
+
+        @keyframes scan-pulse {
+            from { box-shadow: 0 0 30px var(--neon-blue), inset 0 0 30px var(--neon-blue); }
+            to { box-shadow: 0 0 60px var(--neon-blue), inset 0 0 60px var(--neon-blue); }
+        }
+
+        #holographic-keyboard {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 240, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            display: none;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 5px;
+            z-index: 9995;
+        }
+
+        .holographic-key {
+            padding: 0.5rem;
+            background: rgba(0, 240, 255, 0.2);
+            border: 1px solid var(--neon-blue);
+            text-align: center;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .holographic-key:hover {
+            background: rgba(0, 240, 255, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 10px rgba(0, 240, 255, 0.3);
+        }
+
+        #neon-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(0, 240, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -3;
+        }
+
+        #cyber-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .rain-drop {
+            position: absolute;
+            width: 1px;
+            height: 20px;
+            background: linear-gradient(to bottom, transparent, var(--neon-blue));
+            animation: rain-fall linear infinite;
+        }
+
+        @keyframes rain-fall {
+            to { transform: translateY(100vh); }
+        }
+    </style>
+</head>
+<body>
+    <div id="gateway"></div>
+    <div id="biometric-scanner"></div>
+    <div id="particles-js"></div>
+    <div id="time-distortion"></div>
+    <div id="quantum-tunnel"></div>
+    <div id="neon-grid"></div>
+    <div id="cyber-rain"></div>
+    <canvas id="dna-strand"></canvas>
+
+    <div id="main-container">
+        <div id="cyber-lock"></div>
+        
+        <div class="hologram">
+            <h1 class="neon-text">NEON NEXUS</h1>
+            <p>ACCESS LEVEL: <span id="access-level">RESTRICTED</span></p>
+            <p>BIOMETRIC SCAN REQUIRED</p>
+            
+            <div id="crypto-pad">
+                <div class="crypto-key" data-value="7">7</div>
+                <div class="crypto-key" data-value="8">8</div>
+                <div class="crypto-key" data-value="9">9</div>
+                <div class="crypto-key" data-value="4">4</div>
+                <div class="crypto-key" data-value="5">5</div>
+                <div class="crypto-key" data-value="6">6</div>
+                <div class="crypto-key" data-value="1">1</div>
+                <div class="crypto-key" data-value="2">2</div>
+                <div class="crypto-key" data-value="3">3</div>
+            </div>
+            
+            <button id="request-access" class="neon-button">REQUEST ACCESS</button>
+        </div>
+        
+        <div id="hidden-content">
+            <div class="hologram">
+                <h2>WELCOME, CLEARED USER</h2>
+                <p>You've unlocked the Neon Nexus experience.</p>
+                <div class="glitch-img" data-text="PREMIUM CONTENT"></div>
+                <p>This content is protected by quantum encryption.</p>
+                <button id="show-more">ACTIVATE FULL EXPERIENCE</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="voice-command">
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--neon-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+        </svg>
+    </div>
+
+    <div id="access-denied">
+        <h1 class="neon-text" style="color: #ff0000;">ACCESS DENIED</h1>
+        <p>BIOMETRIC VERIFICATION FAILED</p>
+        <button id="retry-scan">RETRY SCAN</button>
+    </div>
+
+    <div id="eye-scanner"></div>
+    <div id="holographic-keyboard"></div>
+
+    <div id="payment-gateway">
+        <h2 class="neon-text">PAYMENT REQUIRED</h2>
+        <p>To access Neon Nexus, please complete payment</p>
+        
+        <div class="crypto-option" data-amount="9.99">
+            <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" width="30" height="30" style="margin-right: 10px;">
+            <span>9.99 USD (0.00015 BTC)</span>
+        </div>
+        
+        <div class="crypto-option" data-amount="9.99">
+            <img src="https://cryptologos.cc/logos/ethereum-eth-logo.png" width="30" height="30" style="margin-right: 10px;">
+            <span>9.99 USD (0.0025 ETH)</span>
+        </div>
+        
+        <div class="crypto-option" data-amount="9.99">
+            <img src="https://cryptologos.cc/logos/usd-coin-usdc-logo.png" width="30" height="30" style="margin-right: 10px;">
+            <span>9.99 USDC</span>
+        </div>
+        
+        <button id="cancel-payment">CANCEL</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        particlesJS("particles-js", {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: "#00f0ff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.5, random: true },
+                size: { value: 3, random: true },
+                line_linked: { enable: true, distance: 150, color: "#00f0ff", opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: "none", random: false, straight: false, out_mode: "out" }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" }
+                }
+            }
+        });
+
+        // Create cyber rain effect
+        function createCyberRain() {
+            const cyberRain = document.getElementById('cyber-rain');
+            const dropsCount = 100;
+            
+            for (let i = 0; i < dropsCount; i++) {
+                const drop = document.createElement('div');
+                drop.classList.add('rain-drop');
+                drop.style.left = `${Math.random() * 100}%`;
+                drop.style.top = `${Math.random() * -100}%`;
+                drop.style.animationDuration = `${0.5 + Math.random() * 2}s`;
+                drop.style.animationDelay = `${Math.random() * 2}s`;
+                cyberRain.appendChild(drop);
+            }
+        }
+
+        // DNA strand animation
+        function setupDNAStrand() {
+            const canvas = document.getElementById('dna-strand');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const points = [];
+            const pointCount = 30;
+            
+            for (let i = 0; i < pointCount; i++) {
+                points.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    radius: 1 + Math.random() * 3,
+                    speed: 0.1 + Math.random() * 0.5
+                });
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.strokeStyle = 'rgba(0, 240, 255, 0.2)';
+                ctx.lineWidth = 1;
+                
+                // Draw connections
+                for (let i = 0; i < points.length; i++) {
+                    for (let j = i + 1; j < points.length; j++) {
+                        const distance = Math.sqrt(
+                            Math.pow(points[i].x - points[j].x, 2) + 
+                            Math.pow(points[i].y - points[j].y, 2)
+                        );
+                        
+                        if (distance < 200) {
+                            ctx.beginPath();
+                            ctx.moveTo(points[i].x, points[i].y);
+                            ctx.lineTo(points[j].x, points[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                
+                // Update points
+                points.forEach(point => {
+                    point.y += point.speed;
+                    if (point.y > canvas.height) point.y = 0;
+                    
+                    ctx.beginPath();
+                    ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = 'rgba(0, 240, 255, 0.5)';
+                    ctx.fill();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+        }
+
+        // Crypto pad interaction
+        const cryptoKeys = document.querySelectorAll('.crypto-key');
+        let enteredCode = '';
+        const secretCode = '1984';
+        
+        cryptoKeys.forEach(key => {
+            key.addEventListener('click', () => {
+                enteredCode += key.dataset.value;
+                key.style.backgroundColor = 'rgba(0, 240, 255, 0.5)';
+                
+                setTimeout(() => {
+                    key.style.backgroundColor = '';
+                }, 300);
+                
+                if (enteredCode.length >= secretCode.length) {
+                    if (enteredCode === secretCode) {
+                        startBiometricScan();
+                    } else {
+                        showAccessDenied();
+                        enteredCode = '';
+                    }
+                }
+            });
+        });
+
+        // Biometric scan effect
+        function startBiometricScan() {
+            const eyeScanner = document.getElementById('eye-scanner');
+            eyeScanner.style.display = 'block';
+            
+            setTimeout(() => {
+                eyeScanner.style.display = 'none';
+                showPaymentGateway();
+            }, 3000);
+        }
+
+        // Show payment gateway
+        function showPaymentGateway() {
+            const paymentGateway = document.getElementById('payment-gateway');
+            paymentGateway.style.display = 'block';
+            
+            // Add click handlers for payment options
+            document.querySelectorAll('.crypto-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    processPayment(option.dataset.amount);
+                });
+            });
+            
+            document.getElementById('cancel-payment').addEventListener('click', () => {
+                paymentGateway.style.display = 'none';
+                showAccessDenied();
+            });
+        }
+
+        // Process payment (simulated)
+        function processPayment(amount) {
+            const paymentGateway = document.getElementById('payment-gateway');
+            paymentGateway.innerHTML = `
+                <h2 class="neon-text">PROCESSING PAYMENT</h2>
+                <p>Verifying blockchain transaction...</p>
+                <div id="countdown">3</div>
+            `;
+            
+            let count = 3;
+            const countdown = setInterval(() => {
+                count--;
+                document.getElementById('countdown').textContent = count;
+                
+                if (count <= 0) {
+                    clearInterval(countdown);
+                    paymentGateway.style.display = 'none';
+                    grantAccess();
+                }
+            }, 1000);
+        }
+
+        // Grant access
+        function grantAccess() {
+            document.getElementById('access-level').textContent = 'GRANTED';
+            document.getElementById('access-level').style.color = '#00ff00';
+            
+            // Show hidden content
+            setTimeout(() => {
+                document.getElementById('hidden-content').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('hidden-content').style.opacity = '1';
+                }, 100);
+            }, 1000);
+            
+            // Activate quantum tunnel effect
+            setTimeout(() => {
+                document.getElementById('quantum-tunnel').style.opacity = '0.3';
+            }, 1500);
+            
+            // Show "show more" button functionality
+            document.getElementById('show-more').addEventListener('click', () => {
+                activateFullExperience();
+            });
+        }
+
+        // Full experience activation
+        function activateFullExperience() {
+            // Time distortion effect
+            document.getElementById('time-distortion').style.opacity = '0.7';
+            
+            // Show holographic keyboard
+            document.getElementById('holographic-keyboard').style.display = 'grid';
+            setupHolographicKeyboard();
+            
+            // Voice command activation
+            setupVoiceCommand();
+        }
+
+        // Holographic keyboard setup
+        function setupHolographicKeyboard() {
+            const keyboard = document.getElementById('holographic-keyboard');
+            const keys = '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            
+            keyboard.innerHTML = '';
+            
+            for (let i = 0; i < keys.length; i++) {
+                const key = document.createElement('div');
+                key.classList.add('holographic-key');
+                key.textContent = keys[i];
+                keyboard.appendChild(key);
+                
+                key.addEventListener('click', () => {
+                    key.style.backgroundColor = 'rgba(255, 0, 255, 0.5)';
+                    setTimeout(() => {
+                        key.style.backgroundColor = '';
+                    }, 300);
+                });
+            }
+        }
+
+        // Voice command setup
+        function setupVoiceCommand() {
+            const voiceCommand = document.getElementById('voice-command');
+            let recognition;
+            
+            try {
+                recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+                recognition.lang = 'en-US';
+                
+                voiceCommand.addEventListener('click', () => {
+                    voiceCommand.innerHTML = '<div class="pulse-ring"></div>';
+                    recognition.start();
+                    
+                    setTimeout(() => {
+                        if (!recognition.ended) recognition.stop();
+                    }, 5000);
+                });
+                
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript.toLowerCase();
+                    handleVoiceCommand(transcript);
+                };
+                
+                recognition.onend = () => {
+                    voiceCommand.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--neon-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    `;
+                };
+            } catch (e) {
+                voiceCommand.style.display = 'none';
+            }
+        }
+
+        // Handle voice commands
+        function handleVoiceCommand(command) {
+            if (command.includes('secret') || command.includes('unlock')) {
+                document.getElementById('quantum-tunnel').style.opacity = '0.7';
+                setTimeout(() => {
+                    document.getElementById('quantum-tunnel').style.opacity = '0';
+                }, 2000);
+            } else if (command.includes('time') || command.includes('distortion')) {
+                document.getElementById('time-distortion').style.opacity = '0.9';
+                setTimeout(() => {
+                    document.getElementById('time-distortion').style.opacity = '0';
+                }, 3000);
+            }
+        }
+
+        // Show access denied
+        function showAccessDenied() {
+            document.getElementById('access-denied').style.display = 'flex';
+            
+            document.getElementById('retry-scan').addEventListener('click', () => {
+                document.getElementById('access-denied').style.display = 'none';
+                enteredCode = '';
+            });
+        }
+
+        // Request access button
+        document.getElementById('request-access').addEventListener('click', () => {
+            showPaymentGateway();
+        });
+
+        // Initialize effects
+        window.addEventListener('load', () => {
+            createCyberRain();
+            setupDNAStrand();
+            
+            // Mouse move parallax effect
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                document.querySelectorAll('.hologram').forEach(hologram => {
+                    hologram.style.transform = `rotateX(${5 - y * 10}deg) rotateY(${x * 10 - 5}deg)`;
+                });
+            });
+        });
+
+        // Resize handler
+        window.addEventListener('resize', () => {
+            const canvas = document.getElementById('dna-strand');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
